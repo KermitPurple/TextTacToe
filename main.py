@@ -1,9 +1,28 @@
+class Coord:
+    """
+    a representation of an x and y coordinate
+    """
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
 class TextTacToe:
     """
     Text-based Tic tac toe game
     """
     def __init__(self):
-        pass
+        self.size = Coord(3, 3) # set the size of a tic tac toe board
+        self.board = self.get_matrix(self.size.x, self.size.y) # create empty tic tac toe board
+
+    def print(self):
+        """
+        Print the tic tac toe board and its contents
+        """
+        for i in range(self.size.y):
+            for j in range(self.size.x):
+                print(self.board[i][j] + (' |' if j < self.size.x - 1 else ''), end='')
+            if i < self.size.y - 1:
+                print('\n--+--+--')
 
     @staticmethod
     def get_matrix(x: int, y: int) -> [[int]]:
@@ -13,5 +32,5 @@ class TextTacToe:
         return [[' ' for j in range(x)] for i in range(y)]
 
 if __name__ == '__main__':
-    for lst in TextTacToe.get_matrix(5, 3):
-        print(lst)
+    ttt = TextTacToe()
+    ttt.print()
