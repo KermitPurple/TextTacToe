@@ -1,3 +1,5 @@
+from __future__ import annotations # allows for use of Coord in function type declarations
+
 class Coord:
     """
     a representation of an x and y coordinate
@@ -6,13 +8,19 @@ class Coord:
         self.x = x
         self.y = y
 
-    def __eq__(self, other):
+    @staticmethod
+    def from_string(string: str) -> Coord:
+        """
+        Create a new Coord object from a string
+        """
+
+    def __eq__(self, other: Coord) -> bool:
         """
         Compare two Coord objects with a double equals operator
         """
         return self.x == other.x and self.y == other.y
 
-    def __str__(self):
+    def __str__(self) -> str:
         """
         Return the Coord object as a tstring
         """
@@ -35,6 +43,13 @@ class TextTacToe:
                 print(self.board[i][j] + (' |' if j < self.size.x - 1 else ''), end='') # print values and vertical lines in between
             if i < self.size.y - 1: # if this isn't the last loop
                 print('\n--+--+--') # print horizontal lines between values
+        print('') # newline
+
+    def get_user_input(self) -> Coord:
+        """
+        get user input and covert it to a Coord
+        """
+        return Coord.from_string(input('Enter a valid Coordinate on the board: '))
 
     @staticmethod
     def get_matrix(x: int, y: int) -> [[int]]:
@@ -46,3 +61,4 @@ class TextTacToe:
 if __name__ == '__main__':
     ttt = TextTacToe()
     ttt.print()
+    print(ttt.get_user_input())
