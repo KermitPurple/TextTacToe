@@ -6,6 +6,12 @@ class Coord:
         self.x = x
         self.y = y
 
+    def __eq__(self, other):
+        return self.x == other.x and self.y == other.y
+
+    def __str__(self):
+        return f'Coord(x={self.x}, y={self.y})'
+
 class TextTacToe:
     """
     Text-based Tic tac toe game
@@ -34,3 +40,4 @@ class TextTacToe:
 if __name__ == '__main__':
     ttt = TextTacToe()
     ttt.print()
+    c = Coord(10, 5)
