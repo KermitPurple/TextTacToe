@@ -7,9 +7,15 @@ class Coord:
         self.y = y
 
     def __eq__(self, other):
+        """
+        Compare two Coord objects with a double equals operator
+        """
         return self.x == other.x and self.y == other.y
 
     def __str__(self):
+        """
+        Return the Coord object as a tstring
+        """
         return f'Coord(x={self.x}, y={self.y})'
 
 class TextTacToe:
