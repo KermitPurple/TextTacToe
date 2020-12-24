@@ -54,7 +54,8 @@ class TextTacToe:
                 print('\n--+--+--') # print horizontal lines between values
         print('') # newline
 
-    def get_user_input(self) -> Coord:
+    @staticmethod
+    def get_user_input() -> Coord:
         """
         get user input and covert it to a Coord
         """
