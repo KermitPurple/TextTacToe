@@ -42,6 +42,13 @@ class TextTacToe:
     def __init__(self):
         self.size = Coord(3, 3) # set the size of a tic tac toe board
         self.board = self.get_matrix(self.size.x, self.size.y) # create empty tic tac toe board
+        self.current_turn = 'x'
+
+    def swap_current_turn(self):
+        """
+        Change current turn to the opposite player; if it is x change to o and visa versa
+        """
+        self.current_turn = 'x' if self.current_turn == 'o' else 'o'
 
     def print(self):
         """
