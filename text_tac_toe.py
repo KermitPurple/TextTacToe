@@ -107,7 +107,7 @@ class RandomBotInput(InputType):
         """
         return random.choice(RandomBotInput.get_avaliable_coords(tic_tac_toe))
 
-class MinimaxBotInput(InputType):
+class MinimaxBotInput(RandomBotInput):
     """
     Child class of Input type.
     computes what the best move should be using minimax algorithm
@@ -118,9 +118,15 @@ class MinimaxBotInput(InputType):
         """
         Finds the best move using minimax algorithm
         """
-        # TODO: Minimax Logic <24-12-20, Shane McDonough>
-        return Coord(0, 0)
+        return minimax_algorithm(tic_tac_toe ,tic_tac_toe.board, 10, True)
 
+    @staticmethod
+    def minimax_algorithm(tic_tac_toe: TextTacToe, board: [[Team]], depth: int, maximizing: bool) -> Coord:
+        """
+        performs the minimax algorithm on a tic tac toe board
+        """
+        if depth == 0 or tic_tac_toe._detect_winner(board) is not None:
+            return ':)'
 
 class TextTacToe:
     """
