@@ -65,7 +65,7 @@ class GuiTacToe(TextTacToe):
             elif (pos := self.player.get_input(self)) is not None:
                 self.set_board(pos)
         else:
-            self.draw_winner()
+            self.draw_game_over_screen()
             if self.tiks > self.tiks_at_game_over + 40:
                 self.reset()
 
@@ -122,9 +122,9 @@ class GuiTacToe(TextTacToe):
         size = txt.get_size()
         self.screen.blit(txt, Coord(pos.x - size[0] / 2, pos.y).get_tuple())
 
-    def draw_winner(self):
+    def draw_game_over_screen(self):
         """
-        Draw the text on the screen of the winner
+        Draw the text on the screen for when the game ends
         """
         center = Coord(self.screen_size.x / 2, self.screen_size.y * 0.2)
         self.draw_text(center, f'{self.winner.value} Won!' if self.winner != Team.Empty else 'Cats Game!', self.RED)
