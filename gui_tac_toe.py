@@ -32,7 +32,7 @@ class GuiTacToe(TextTacToe):
         os.environ['SDL_VIDEO_WINDOW_POS'] = "15,30"
         self.running = False
         self.winner = None
-        self.cell_size = Coord(screen_size.x / self.size.x, screen_size.y / self.size.y)
+        self.cell_size = Coord(screen_size.x / self.board_size.x, screen_size.y / self.board_size.y)
         self.screen_size = screen_size
         pygame.display.init()
         pygame.display.set_caption('Tic Tac Toe')
@@ -56,7 +56,7 @@ class GuiTacToe(TextTacToe):
         set a position on the board to the current turn
         """
         try:
-            if pos.x >= self.size.x or pos.x < 0 or pos.y >= self.size.y or pos.y < 0:
+            if pos.x >= self.board_size.x or pos.x < 0 or pos.y >= self.board_size.y or pos.y < 0:
                 raise ValueError('Coordinate out of bounds')
             if self.board[pos.y][pos.x] != Team.Empty:
                 raise ValueError('Cannot place peice in spot that isnt empty')
@@ -70,17 +70,17 @@ class GuiTacToe(TextTacToe):
         prints the screen
         """
         self.draw_grid()
-        for i in range(self.size.y):
-            for j in range(self.size.x):
+        for i in range(self.board_size.y):
+            for j in range(self.board_size.x):
                 self.draw_cell(Coord(j, i), self.board[i][j])
 
     def draw_grid(self):
         """
         Draw the tic tac toe grid
         """
-        for i in range(1, self.size.x):
+        for i in range(1, self.board_size.x):
             pygame.draw.line(self.screen, self.WHITE, (i * self.cell_size.x, 0), (i * self.cell_size.y, self.screen_size.y))
-        for i in range(1, self.size.y):
+        for i in range(1, self.board_size.y):
             pygame.draw.line(self.screen, self.WHITE, (0, i * self.cell_size.y), (self.screen_size.x, i * self.cell_size.y))
 
     def draw_cell(self, pos: Coord, team: Team):

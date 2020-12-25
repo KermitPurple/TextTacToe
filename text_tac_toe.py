@@ -94,8 +94,8 @@ class RandomBotInput(InputType):
         get user input and covert it to a Coord
         """
         avaliable_coords = []
-        for i in range(tic_tac_toe.size.y):
-            for j in range(tic_tac_toe.size.x):
+        for i in range(tic_tac_toe.board_size.y):
+            for j in range(tic_tac_toe.board_size.x):
                 if tic_tac_toe.board[i][j] == Team.Empty:
                     avaliable_coords.append(Coord(j, i))
         return random.choice(avaliable_coords)
@@ -123,8 +123,8 @@ class TextTacToe:
         self.player = player_x
         self.player_x = player_x
         self.player_o = player_o
-        self.size = Coord(3, 3) # set the size of a tic tac toe board
-        self.board = self.get_matrix(self.size.x, self.size.y) # create empty tic tac toe board
+        self.board_size = Coord(10, 10) # set the size of a tic tac toe board
+        self.board = self.get_matrix(self.board_size.x, self.board_size.y) # create empty tic tac toe board
         self.current_turn = Team.X
         self.teams = [team for team in Team if team != Team.Empty]
 
@@ -138,11 +138,11 @@ class TextTacToe:
         """
         Print the tic tac toe board and its contents
         """
-        for i in range(self.size.y): # cycle through y coords
-            for j in range(self.size.x): # cycle through x coords
+        for i in range(self.board_size.y): # cycle through y coords
+            for j in range(self.board_size.x): # cycle through x coords
                 # print values and vertical lines in between
-                print(self.board[i][j].value + (' |' if j < self.size.x - 1 else ''), end='')
-            if i < self.size.y - 1: # if this isn't the last loop
+                print(self.board[i][j].value + (' |' if j < self.board_size.x - 1 else ''), end='')
+            if i < self.board_size.y - 1: # if this isn't the last loop
                 print('\n--+--+--') # print horizontal lines between values
         print('') # newline
 
@@ -155,7 +155,7 @@ class TextTacToe:
             player = self.player_x if self.current_turn == Team.X else self.player_o
             try:
                 pos = player.get_input(self)
-                if pos.x >= self.size.x or pos.x < 0 or pos.y >= self.size.y or pos.y < 0:
+                if pos.x >= self.board_size.x or pos.x < 0 or pos.y >= self.board_size.y or pos.y < 0:
                     raise ValueError('Coordinate out of bounds')
                 if self.board[pos.y][pos.x] != Team.Empty:
                     raise ValueError('Cannot place peice in spot that isnt empty')
@@ -175,21 +175,21 @@ class TextTacToe:
         detects if someone has won the game of tic tac toe.
         returns the team of the winner or None if there is no winner yet
         """
-        check_diag = self.size.x == self.size.y
+        check_diag = self.board_size.x == self.board_size.y
         for team in self.teams:
-            horiz_win = [True for _ in range(self.size.x)]
+            horiz_win = [True for _ in range(self.board_size.x)]
             diag_win = True
             board_full = True
-            for i in range(self.size.y): # cycle through y values
+            for i in range(self.board_size.y): # cycle through y values
                 if check_diag:
                     if self.board[i][i] != team:
                         diag_win = False
-                for j in range(self.size.x):
+                for j in range(self.board_size.x):
                     if self.board[i][j] != team:
                         horiz_win[j] = False
                     if self.board[i][j] == Team.Empty:
                         board_full = False
-                if self.board[i] == [team for _ in range(self.size.x)]:
+                if self.board[i] == [team for _ in range(self.board_size.x)]:
                     return team
             if True in horiz_win or diag_win:
                 return team
