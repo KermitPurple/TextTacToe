@@ -24,8 +24,11 @@ class GuiTacToe(TextTacToe):
     WHITE = pygame.Color(255, 255, 255)
     BLACK = pygame.Color(0, 0, 0)
 
-    def __init__(self, screen_size: Coord = Coord(600, 600)):
+    def __init__(self, player_x: InputType = PygameUserInput, player_o: InputType = PygameUserInput, screen_size: Coord = Coord(600, 600)):
         super().__init__()
+        self.player = player_x
+        self.player_x = player_x
+        self.player_o = player_o
         os.environ['SDL_VIDEO_WINDOW_POS'] = "15,30"
         self.running = False
         self.winner = None
@@ -40,6 +43,7 @@ class GuiTacToe(TextTacToe):
         called every frame
         update logic
         """
+        self.player = self.player_x if self.current_turn == Team.X else self.player_o
         self.winner = self.detect_winner()
         if self.winner is not None:
             self.running = False
@@ -96,15 +100,14 @@ class GuiTacToe(TextTacToe):
         """
         get the mouse input
         """
-        if button == 1:
+        if self.player == PygameUserInput and button == 1:
             grid_pos = Coord(int(pos[0] / self.cell_size.x), int(pos[1] / self.cell_size.y))
             self.set_board(grid_pos)
 
-    def play_game(self, player_x: InputType = PygameUserInput, player_o: InputType = PygameUserInput):
+    def play_game(self):
         """
         play a single game of tic tac toe
         """
-        self.player = player_x if self.current_turn == Team.X else player_o
         self.running = True
         while self.running:
             for event in pygame.event.get():

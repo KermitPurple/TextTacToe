@@ -5,4 +5,4 @@ from gui_tac_toe import GuiTacToe
 
 if __name__ == '__main__':
     gtt = GuiTacToe()
-    gtt.play_game(player_o = RandomBotInput)
+    gtt.play_game()
