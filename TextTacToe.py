@@ -1,3 +1,5 @@
+"""Contains three classes used for a text-based TicTacToe game"""
+
 from __future__ import annotations # allows for use of Coord in function type declarations
 from enum import Enum
 
