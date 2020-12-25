@@ -178,7 +178,7 @@ class TextTacToe:
         check_diag = self.board_size.x == self.board_size.y
         for team in self.teams:
             horiz_win = [True for _ in range(self.board_size.x)]
-            diag_win = True
+            diag_win = check_diag
             board_full = True
             for i in range(self.board_size.y): # cycle through y values
                 if check_diag:

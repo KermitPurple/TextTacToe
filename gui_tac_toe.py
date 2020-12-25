@@ -76,7 +76,7 @@ class GuiTacToe(TextTacToe):
         Draw the tic tac toe grid
         """
         for i in range(1, self.board_size.x):
-            pygame.draw.line(self.screen, self.WHITE, (i * self.cell_size.x, 0), (i * self.cell_size.y, self.screen_size.y))
+            pygame.draw.line(self.screen, self.WHITE, (i * self.cell_size.x, 0), (i * self.cell_size.x, self.screen_size.y))
         for i in range(1, self.board_size.y):
             pygame.draw.line(self.screen, self.WHITE, (0, i * self.cell_size.y), (self.screen_size.x, i * self.cell_size.y))
 
@@ -115,3 +115,4 @@ class GuiTacToe(TextTacToe):
             self.screen.fill((0, 0, 0))
             self.update()
             pygame.display.update()
+

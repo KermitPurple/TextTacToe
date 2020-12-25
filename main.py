@@ -5,7 +5,7 @@ from gui_tac_toe import GuiTacToe
 
 if __name__ == '__main__':
     # gtt = GuiTacToe(player_o = MinimaxBotInput)
-    gtt = GuiTacToe(player_o = RandomBotInput, board_size = Coord(5, 5))
+    gtt = GuiTacToe(player_o = RandomBotInput, board_size = Coord(3, 4))
     gtt.play_game()
     # ttt = TextTacToe()
     # ttt.play_game()
