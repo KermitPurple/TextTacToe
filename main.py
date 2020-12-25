@@ -52,6 +52,7 @@ class TextTacToe:
         self.size = Coord(3, 3) # set the size of a tic tac toe board
         self.board = self.get_matrix(self.size.x, self.size.y) # create empty tic tac toe board
         self.current_turn = Team.X
+        self.teams = [team for team in Team if team != Team.Empty]
 
     def swap_current_turn(self):
         """
@@ -74,7 +75,7 @@ class TextTacToe:
         """
         play a single game of tic tac toe
         """
-        while 1:
+        while (winner := self.detect_winner()) == None:
             self.print()
             try:
                 pos = self.get_user_input()
@@ -87,6 +88,17 @@ class TextTacToe:
                 continue
             self.board[pos.y][pos.x] = self.current_turn
             self.swap_current_turn()
+        print(winner)
+
+    def detect_winner(self) -> Team:
+        """
+        detects if someone has won the game of tic tac toe. returns the team of the winner or None if there is no winner
+        """
+        for i in range(self.size.y): # cycle through y values
+            for team in self.teams:
+                if self.board[i] == [team for _ in range(self.size.x)]:
+                    return team
+        return None
 
     @staticmethod
     def get_user_input() -> Coord:
