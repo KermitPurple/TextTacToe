@@ -1,4 +1,13 @@
 from __future__ import annotations # allows for use of Coord in function type declarations
+from enum import Enum
+
+class Team(Enum):
+    """
+    A enum containing the two types of teams in tic tac toe
+    """
+    X = 'X'
+    O = 'O'
+    Empty = ' '
 
 class Coord:
     """
@@ -42,13 +51,13 @@ class TextTacToe:
     def __init__(self):
         self.size = Coord(3, 3) # set the size of a tic tac toe board
         self.board = self.get_matrix(self.size.x, self.size.y) # create empty tic tac toe board
-        self.current_turn = 'x'
+        self.current_turn = Team.X
 
     def swap_current_turn(self):
         """
         Change current turn to the opposite player; if it is x change to o and visa versa
         """
-        self.current_turn = 'x' if self.current_turn == 'o' else 'o'
+        self.current_turn = Team.X if self.current_turn == Team.O else Team.O
 
     def print(self):
         """
@@ -56,7 +65,7 @@ class TextTacToe:
         """
         for i in range(self.size.y): # cycle through y coords
             for j in range(self.size.x): # cycle through x coords
-                print(self.board[i][j] + (' |' if j < self.size.x - 1 else ''), end='') # print values and vertical lines in between
+                print(self.board[i][j].value + (' |' if j < self.size.x - 1 else ''), end='') # print values and vertical lines in between
             if i < self.size.y - 1: # if this isn't the last loop
                 print('\n--+--+--') # print horizontal lines between values
         print('') # newline
@@ -69,13 +78,16 @@ class TextTacToe:
         return Coord.from_string(input('Enter a valid Coordinate on the board: '))
 
     @staticmethod
-    def get_matrix(x: int, y: int) -> [[int]]:
+    def get_matrix(x: int, y: int) -> [[Team]]:
         """
         Create new matric with width x and height y
         """
-        return [[' ' for j in range(x)] for i in range(y)]
+        return [[Team.Empty for j in range(x)] for i in range(y)]
 
 if __name__ == '__main__':
     ttt = TextTacToe()
     ttt.print()
     print(ttt.get_user_input())
+    for _ in range(10):
+        print(ttt.current_turn)
+        ttt.swap_current_turn()
