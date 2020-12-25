@@ -128,7 +128,9 @@ class GuiTacToe(TextTacToe):
         """
         Draw the text on the screen for when the game ends
         """
-        center = Coord(self.screen_size.x / 2, self.screen_size.y * 0.2)
+        center = Coord(self.screen_size.x / 2, self.screen_size.y / 2)
+        top_center = Coord(center.x, self.screen_size.y * 0.2)
+        x_offset = self.screen_size.x / 4
         if self.winner == Team.Empty:
             color = self.BLUE
             text = 'Cat\'s Game!'
@@ -138,7 +140,9 @@ class GuiTacToe(TextTacToe):
                 color = self.RED
             else:
                 color = self.GREEN
-        self.draw_text(center, text, color)
+        self.draw_text(top_center, text, color)
+        self.draw_text(Coord(center.x - x_offset, center.y), f'X: {0}', self.RED)
+        self.draw_text(Coord(center.x + x_offset, center.y), f'O: {0}', self.GREEN)
 
     def mouse_input(self, pos, button):
         """
