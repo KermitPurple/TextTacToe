@@ -55,6 +55,7 @@ class GuiTacToe(TextTacToe):
         called every frame
         update logic
         """
+        self.print()
         if not self.game_over:
             self.player = self.player_x if self.current_turn == Team.X else self.player_o
             self.winner = self.detect_winner()
@@ -63,7 +64,6 @@ class GuiTacToe(TextTacToe):
                 self.tiks_at_game_over = self.tiks
             elif (pos := self.player.get_input(self)) is not None:
                 self.set_board(pos)
-            self.print()
         else:
             self.draw_winner()
             if self.tiks > self.tiks_at_game_over + 40:
@@ -114,13 +114,20 @@ class GuiTacToe(TextTacToe):
             middle = Coord(pos.x * self.cell_size.x + self.cell_size.x / 2, pos.y * self.cell_size.y + self.cell_size.y / 2)
             pygame.draw.circle(self.screen, self.WHITE, middle.get_tuple(), min(self.cell_size.x, self.cell_size.y) * 0.4, 10)
 
+    def draw_text(self, pos: Coord, text: str, color: pygame.Color):
+        """
+        Draws text to the screen
+        """
+        txt = self.FONT.render(text, True, color)
+        size = txt.get_size()
+        self.screen.blit(txt, Coord(pos.x - size[0] / 2, pos.y).get_tuple())
+
     def draw_winner(self):
         """
         Draw the text on the screen of the winner
         """
-        center = Coord(self.screen_size.x / 2, self.screen_size.y / 5)
-        txt = self.FONT.render(f'{self.winner.value} Won!' if self.winner != Team.Empty else 'Cats Game!', True, self.RED)
-        self.screen.blit(txt, center.get_tuple())
+        center = Coord(self.screen_size.x / 2, self.screen_size.y * 0.2)
+        self.draw_text(center, f'{self.winner.value} Won!' if self.winner != Team.Empty else 'Cats Game!', self.RED)
 
     def mouse_input(self, pos, button):
         """
@@ -153,8 +160,7 @@ class GuiTacToe(TextTacToe):
                     sys.exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     self.mouse_input(event.pos, event.button)
-            if not self.game_over:
-                self.screen.fill(self.BLACK)
+            self.screen.fill(self.BLACK)
             self.update()
             pygame.display.update()
 
