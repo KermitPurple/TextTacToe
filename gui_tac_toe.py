@@ -54,20 +54,20 @@ class GuiTacToe(TextTacToe):
         """
         Fill a cell with an x or an o
         """
-        pos = Coord(pos.x * self.cell_size.x + self.cell_size.x * 0.1, pos.y * self.cell_size.y + self.cell_size.x * 0.1)
-        scaled_cell_size = Coord(self.cell_size.x * 0.8, self.cell_size.y * 0.8)
         if team  == Team.X:
+            pos = Coord(pos.x * self.cell_size.x + self.cell_size.x * 0.1, pos.y * self.cell_size.y + self.cell_size.x * 0.1)
+            scaled_cell_size = Coord(self.cell_size.x * 0.8, self.cell_size.y * 0.8)
             pygame.draw.line(self.screen, self.WHITE, pos.get_tuple(), Coord(pos.x + scaled_cell_size.x, pos.y + scaled_cell_size.y).get_tuple(), 10)
             pygame.draw.line(self.screen, self.WHITE, Coord(pos.x, pos.y + scaled_cell_size.y).get_tuple(), Coord(pos.x + scaled_cell_size.x, pos.y).get_tuple(), 10)
         elif team == Team.O:
-            pass
+            middle = Coord(pos.x * self.cell_size.x + self.cell_size.x / 2, pos.y * self.cell_size.y + self.cell_size.y / 2)
+            pygame.draw.circle(self.screen, self.WHITE, middle.get_tuple(), min(self.cell_size.x, self.cell_size.y) * 0.4, 10)
 
 
     def play_game(self, player_x: InputType = UserInput, player_o: InputType = UserInput):
         """
         play a single game of tic tac toe
         """
-        self.board[1][1] = Team.X
         self.running = True
         while self.running:
             for event in pygame.event.get():
