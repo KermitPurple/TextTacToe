@@ -74,6 +74,20 @@ class UserInput(InputType):
         """
         return Coord.from_string(input('Enter a valid Coordinate on the board: '))
 
+class MinimaxBotInput(InputType):
+    """
+    Child class of Input type.
+    computes what the best move should be using minimax algorithm
+    """
+
+    @staticmethod
+    def get_input(tic_tac_toe: TextTacToe) -> Coord:
+        """
+        Finds the best move using minimax algorithm
+        """
+        return Coord(0, 0)
+
+
 class TextTacToe:
     """
     Text-based Tic tac toe game
