@@ -66,6 +66,8 @@ class GuiTacToe(TextTacToe):
             self.player = self.player_x if self.current_turn == Team.X else self.player_o
             self.winner = self.detect_winner()
             if self.winner is not None:
+                if self.winner != Team.Empty:
+                    self.score[self.winner.value] += 1
                 self.game_over = True
                 self.tiks_at_game_over = self.tiks
             elif (pos := self.player.get_input(self)) is not None:
