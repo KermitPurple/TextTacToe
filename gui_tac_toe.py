@@ -24,11 +24,12 @@ class GuiTacToe(TextTacToe):
     WHITE = pygame.Color(255, 255, 255)
     BLACK = pygame.Color(0, 0, 0)
     RED = pygame.Color(255, 0, 0)
+    MAX_TIKS = 1000000
 
     def __init__(self, player_x: InputType = PygameUserInput, player_o: InputType = PygameUserInput, board_size: Coord = Coord(3, 3), screen_size: Coord = Coord(600, 600)):
         super().__init__(player_x, player_o, board_size)
         os.environ['SDL_VIDEO_WINDOW_POS'] = "15,30"
-        self.game_running = False
+        self.running = False
         self.winner = None
         self.cell_size = Coord(screen_size.x / self.board_size.x, screen_size.y / self.board_size.y)
         self.screen_size = screen_size
@@ -37,6 +38,16 @@ class GuiTacToe(TextTacToe):
         pygame.display.set_caption('Tic Tac Toe')
         self.FONT = pygame.font.SysFont('Arial', 100)
         self.screen = pygame.display.set_mode(size=self.screen_size.get_tuple())
+        self.tiks = 0
+        self.showing_winner = False
+
+    def tik(self):
+        """
+        increment tiks and sleep for 0.05 seconds
+        """
+        self.tiks += 1
+        self.tiks %= self.MAX_TIKS
+        time.sleep(0.05)
 
     def update(self):
         """
@@ -46,11 +57,16 @@ class GuiTacToe(TextTacToe):
         self.player = self.player_x if self.current_turn == Team.X else self.player_o
         self.winner = self.detect_winner()
         if self.winner is not None:
-            self.game_running = False
+            self.reset()
+            self.showing_winner = True
+            self.tiks_at_show_win = self.tiks
         if (pos := self.player.get_input(self)) is not None:
             self.set_board(pos)
         self.print()
-        self.draw_winner()
+        if self.showing_winner:
+            self.draw_winner()
+            if self.tiks > self.tiks_at_game_over + 40:
+                self.showing_winner = False
 
     def set_board(self, pos: Coord):
         """
@@ -110,21 +126,25 @@ class GuiTacToe(TextTacToe):
             grid_pos = Coord(int(pos[0] / self.cell_size.x), int(pos[1] / self.cell_size.y))
             self.set_board(grid_pos)
 
+    def reset(self):
+        """
+        Reset the board, current turn, and tiks
+        """
+        super().reset()
+        tiks = 0
+
     def play_game(self):
         """
         play a single game of tic tac toe
         """
-        while 1:
-            self.reset()
-            self.game_running = True
-            while self.game_running:
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        sys.exit()
-                    elif event.type == pygame.MOUSEBUTTONDOWN:
-                        self.mouse_input(event.pos, event.button)
-                self.screen.fill(self.BLACK)
-                self.update()
-                pygame.display.update()
-            time.sleep(2)
+        while self.running:
+            self.tik()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sys.exit()
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    self.mouse_input(event.pos, event.button)
+            self.screen.fill(self.BLACK)
+            self.update()
+            pygame.display.update()
 
