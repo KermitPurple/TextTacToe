@@ -120,6 +120,7 @@ class TextTacToe:
                 continue
             self.board[pos.y][pos.x] = self.current_turn
             self.swap_current_turn()
+        self.print()
         print(f'{winner.value} wins!')
 
     def detect_winner(self) -> Team:
