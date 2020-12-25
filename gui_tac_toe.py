@@ -45,7 +45,6 @@ class GuiTacToe(TextTacToe):
         self.game_over = False
         self.score = {}
         for team in self.teams:
-            print(team.value)
             self.score[team.value] = 0
 
     def tik(self):
@@ -136,7 +135,7 @@ class GuiTacToe(TextTacToe):
         """
         center = Coord(self.screen_size.x / 2, self.screen_size.y / 2)
         top_center = Coord(center.x, self.screen_size.y * 0.2)
-        x_offset = self.screen_size.x / 4
+        x_offset = self.screen_size.x / 5
         if self.winner == Team.Empty:
             color = self.BLUE
             text = 'Cat\'s Game!'
@@ -146,6 +145,10 @@ class GuiTacToe(TextTacToe):
                 color = self.RED
             else:
                 color = self.GREEN
+        s = pygame.Surface((self.screen_size.x * 0.8, self.screen_size.y * 0.8))  # the size of your rect
+        s.set_alpha(128)                # alpha level
+        s.fill((255,255,255))           # this fills the entire surface
+        self.screen.blit(s, (self.screen_size.x * 0.1, self.screen_size.y * 0.1))    # (0,0) are the top-left coordinates
         self.draw_text(top_center, text, color)
         self.draw_text(Coord(center.x - x_offset, center.y), f'X: {self.score[Team.X.value]}', self.RED)
         self.draw_text(Coord(center.x + x_offset, center.y), f'O: {self.score[Team.O.value]}', self.GREEN)
