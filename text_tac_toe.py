@@ -89,14 +89,14 @@ class RandomBotInput(InputType):
     """
 
     @staticmethod
-    def get_avaliable_coords(tic_tac_toe: TextTacToe) -> [Coord]:
+    def get_avaliable_coords(tic_tac_toe: TextTacToe, board: [[Team]]) -> [Coord]:
         """
         Return a list of avaliable coordinates
         """
         avaliable_coords = []
         for i in range(tic_tac_toe.board_size.y):
             for j in range(tic_tac_toe.board_size.x):
-                if tic_tac_toe.board[i][j] == Team.Empty:
+                if board[i][j] == Team.Empty:
                     avaliable_coords.append(Coord(j, i))
         return avaliable_coords
 
@@ -105,7 +105,7 @@ class RandomBotInput(InputType):
         """
         get user input and covert it to a Coord
         """
-        return random.choice(RandomBotInput.get_avaliable_coords(tic_tac_toe))
+        return random.choice(RandomBotInput.get_avaliable_coords(tic_tac_toe, tic_tac_toe.board))
 
 class MinimaxBotInput(RandomBotInput):
     """
@@ -118,15 +118,36 @@ class MinimaxBotInput(RandomBotInput):
         """
         Finds the best move using minimax algorithm
         """
-        return minimax_algorithm(tic_tac_toe ,tic_tac_toe.board, 10, True)
+        best_score = -float('inf')
+        for coord in MinimaxBotInput.get_avaliable_coords(tic_tac_toe, tic_tac_toe.board):
+            score = MinimaxBotInput.minimax_algorithm(tic_tac_toe, tic_tac_toe.board, coord, tic_tac_toe.current_turn, 10, True)
+            if score > best_score:
+                best_score = score
+                best_coord = coord
+        return best_coord
 
     @staticmethod
-    def minimax_algorithm(tic_tac_toe: TextTacToe, board: [[Team]], depth: int, maximizing: bool) -> Coord:
+    def minimax_algorithm(tic_tac_toe: TextTacToe, board: [[Team]], new_coord: Coord, turn: Team, depth: int, maximizing: bool) -> int:
         """
         performs the minimax algorithm on a tic tac toe board
         """
-        if depth == 0 or tic_tac_toe._detect_winner(board) is not None:
-            return ':)'
+        board[new_coord.y][new_coord.x] = turn
+        avaliable_coords = MinimaxBotInput.get_avaliable_coords(tic_tac_toe, board)
+        if depth == 0:
+            return 0
+        elif (winner := tic_tac_toe._detect_winner(board)) is not None:
+            if winner == Team.Empty:
+                return 0
+            elif winner == tic_tac_toe.current_turn:
+                return 1
+            else:
+                return -1
+        if maximizing:
+            for coord in avaliable_coords:
+                pass
+        else:
+            for coord in avaliable_coords:
+                pass
 
 class TextTacToe:
     """
@@ -139,6 +160,13 @@ class TextTacToe:
         self.board_size = board_size # set the size of a tic tac toe board
         self.teams = [team for team in Team if team != Team.Empty]
         self.reset()
+
+    @staticmethod
+    def _swap_current_turn(turn: Team) -> Team:
+        """
+        Change current turn to the opposite player; if it is x change to o and visa versa
+        """
+        return Team.X if turn == Team.O else Team.O
 
     def swap_current_turn(self):
         """
