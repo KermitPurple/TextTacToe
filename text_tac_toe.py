@@ -85,6 +85,7 @@ class MinimaxBotInput(InputType):
         """
         Finds the best move using minimax algorithm
         """
+        # TODO: Minimax Logic <24-12-20, Shane McDonough>
         return Coord(0, 0)
 
 
