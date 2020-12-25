@@ -102,13 +102,13 @@ class TextTacToe:
                 print('\n--+--+--') # print horizontal lines between values
         print('') # newline
 
-    def play_game(self, player_X: InputType = UserInput, player_O: InputType = UserInput):
+    def play_game(self, player_x: InputType = UserInput, player_o: InputType = UserInput):
         """
         play a single game of tic tac toe
         """
         while (winner := self.detect_winner()) is None:
             self.print()
-            player = player_X if self.current_turn == Team.X else player_O
+            player = player_x if self.current_turn == Team.X else player_o
             try:
                 pos = player.get_input(self)
                 if pos.x >= self.size.x or pos.x < 0 or pos.y >= self.size.y or pos.y < 0:
