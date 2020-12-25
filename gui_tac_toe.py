@@ -24,6 +24,8 @@ class GuiTacToe(TextTacToe):
     WHITE = pygame.Color(255, 255, 255)
     BLACK = pygame.Color(0, 0, 0)
     RED = pygame.Color(255, 0, 0)
+    GREEN = pygame.Color(0, 255, 0)
+    BLUE = pygame.Color(0, 0, 255)
     MAX_TIKS = 1000000
     tiks_at_game_over = 0
 
@@ -108,11 +110,11 @@ class GuiTacToe(TextTacToe):
         if team  == Team.X:
             pos = Coord(pos.x * self.cell_size.x + self.cell_size.x * 0.1, pos.y * self.cell_size.y + self.cell_size.x * 0.1)
             scaled_cell_size = Coord(self.cell_size.x * 0.8, self.cell_size.y * 0.8)
-            pygame.draw.line(self.screen, self.WHITE, pos.get_tuple(), Coord(pos.x + scaled_cell_size.x, pos.y + scaled_cell_size.y).get_tuple(), 10)
-            pygame.draw.line(self.screen, self.WHITE, Coord(pos.x, pos.y + scaled_cell_size.y).get_tuple(), Coord(pos.x + scaled_cell_size.x, pos.y).get_tuple(), 10)
+            pygame.draw.line(self.screen, self.RED, pos.get_tuple(), Coord(pos.x + scaled_cell_size.x, pos.y + scaled_cell_size.y).get_tuple(), 10)
+            pygame.draw.line(self.screen, self.RED, Coord(pos.x, pos.y + scaled_cell_size.y).get_tuple(), Coord(pos.x + scaled_cell_size.x, pos.y).get_tuple(), 10)
         elif team == Team.O:
             middle = Coord(pos.x * self.cell_size.x + self.cell_size.x / 2, pos.y * self.cell_size.y + self.cell_size.y / 2)
-            pygame.draw.circle(self.screen, self.WHITE, middle.get_tuple(), min(self.cell_size.x, self.cell_size.y) * 0.4, 10)
+            pygame.draw.circle(self.screen, self.GREEN, middle.get_tuple(), min(self.cell_size.x, self.cell_size.y) * 0.4, 10)
 
     def draw_text(self, pos: Coord, text: str, color: pygame.Color):
         """
@@ -127,7 +129,16 @@ class GuiTacToe(TextTacToe):
         Draw the text on the screen for when the game ends
         """
         center = Coord(self.screen_size.x / 2, self.screen_size.y * 0.2)
-        self.draw_text(center, f'{self.winner.value} Won!' if self.winner != Team.Empty else 'Cats Game!', self.RED)
+        if self.winner == Team.Empty:
+            color = self.BLUE
+            text = 'Cat\'s Game!'
+        else:
+            text = f'{self.winner.value} Won!'
+            if self.winner == Team.X:
+                color = self.RED
+            else:
+                color = self.GREEN
+        self.draw_text(center, text, color)
 
     def mouse_input(self, pos, button):
         """
