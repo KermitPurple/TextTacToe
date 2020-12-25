@@ -21,6 +21,12 @@ class Coord:
         self.x = x
         self.y = y
 
+    def get_tuple(self):
+        """
+        Coord it as a tuple
+        """
+        return self.x, self.y
+
     @staticmethod
     def from_string(string: str) -> Coord:
         """
