@@ -125,7 +125,7 @@ class MinimaxBotInput(RandomBotInput):
         """
         best_score = -float('inf')
         for coord in MinimaxBotInput.get_avaliable_coords(tic_tac_toe, tic_tac_toe.board):
-            score = MinimaxBotInput.minimax_algorithm(tic_tac_toe, copy_2d(tic_tac_toe.board), coord, tic_tac_toe.current_turn, 100, False)
+            score = MinimaxBotInput.minimax_algorithm(tic_tac_toe, copy_2d(tic_tac_toe.board), coord, tic_tac_toe.current_turn, 5, False)
             if score > best_score:
                 best_score = score
                 best_coord = coord
