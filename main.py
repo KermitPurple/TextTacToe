@@ -94,10 +94,16 @@ class TextTacToe:
         """
         detects if someone has won the game of tic tac toe. returns the team of the winner or None if there is no winner
         """
-        for i in range(self.size.y): # cycle through y values
-            for team in self.teams:
+        for team in self.teams:
+            horiz_win = [True for _ in range(self.size.x)]
+            for i in range(self.size.y): # cycle through y values
+                for j in range(self.size.x):
+                    if self.board[i][j] != team:
+                        horiz_win[j] = False
                 if self.board[i] == [team for _ in range(self.size.x)]:
                     return team
+            if True in horiz_win:
+                return team
         return None
 
     @staticmethod
