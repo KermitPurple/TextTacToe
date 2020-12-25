@@ -177,12 +177,15 @@ class TextTacToe:
         check_diag = self.board_size.x == self.board_size.y
         for team in self.teams:
             horiz_win = [True for _ in range(self.board_size.x)]
-            diag_win = check_diag
+            slope_down_diag_win = check_diag
+            slope_up_diag_win = check_diag
             board_full = True
             for i in range(self.board_size.y): # cycle through y values
                 if check_diag:
                     if self.board[i][i] != team:
-                        diag_win = False
+                        slope_down_diag_win = False
+                    if self.board[self.board_size.y - 1 - i][i] != team:
+                        slope_up_diag_win = False
                 for j in range(self.board_size.x):
                     if self.board[i][j] != team:
                         horiz_win[j] = False
@@ -190,7 +193,7 @@ class TextTacToe:
                         board_full = False
                 if self.board[i] == [team for _ in range(self.board_size.x)]:
                     return team
-            if True in horiz_win or diag_win:
+            if True in horiz_win or slope_up_diag_win or slope_down_diag_win:
                 return team
         if board_full:
             return Team.Empty
