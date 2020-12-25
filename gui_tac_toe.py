@@ -43,6 +43,10 @@ class GuiTacToe(TextTacToe):
         self.screen = pygame.display.set_mode(size=self.screen_size.get_tuple())
         self.tiks = 0
         self.game_over = False
+        self.score = {}
+        for team in self.teams:
+            print(team.value)
+            self.score[team.value] = 0
 
     def tik(self):
         """
@@ -141,8 +145,8 @@ class GuiTacToe(TextTacToe):
             else:
                 color = self.GREEN
         self.draw_text(top_center, text, color)
-        self.draw_text(Coord(center.x - x_offset, center.y), f'X: {0}', self.RED)
-        self.draw_text(Coord(center.x + x_offset, center.y), f'O: {0}', self.GREEN)
+        self.draw_text(Coord(center.x - x_offset, center.y), f'X: {self.score[Team.X.value]}', self.RED)
+        self.draw_text(Coord(center.x + x_offset, center.y), f'O: {self.score[Team.O.value]}', self.GREEN)
 
     def mouse_input(self, pos, button):
         """
