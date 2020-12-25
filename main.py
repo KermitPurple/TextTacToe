@@ -27,9 +27,9 @@ class Coord:
             s.remove('') # remove an empty string
         length = len(s)
         if length < 2:
-            raise ValueError("Not enough numbers for a coordinate in a 2d plane")
+            raise ValueError('Not enough numbers for a coordinate in a 2d plane')
         elif length > 2:
-            raise ValueError("Too many numbers for a coordinate in a 2d plane")
+            raise ValueError('Too many numbers for a coordinate in a 2d plane')
         return Coord(int(s[0]), int(s[1]))
 
     def __eq__(self, other: Coord) -> bool:
