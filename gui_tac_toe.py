@@ -25,6 +25,7 @@ class GuiTacToe(TextTacToe):
     BLACK = pygame.Color(0, 0, 0)
     RED = pygame.Color(255, 0, 0)
     MAX_TIKS = 1000000
+    tiks_at_game_over = 0
 
     def __init__(self, player_x: InputType = PygameUserInput, player_o: InputType = PygameUserInput, board_size: Coord = Coord(3, 3), screen_size: Coord = Coord(600, 600)):
         super().__init__(player_x, player_o, board_size)
@@ -39,7 +40,7 @@ class GuiTacToe(TextTacToe):
         self.FONT = pygame.font.SysFont('Arial', 100)
         self.screen = pygame.display.set_mode(size=self.screen_size.get_tuple())
         self.tiks = 0
-        self.showing_winner = False
+        self.game_over = False
 
     def tik(self):
         """
@@ -54,19 +55,21 @@ class GuiTacToe(TextTacToe):
         called every frame
         update logic
         """
-        self.player = self.player_x if self.current_turn == Team.X else self.player_o
-        self.winner = self.detect_winner()
-        if self.winner is not None:
-            self.reset()
-            self.showing_winner = True
-            self.tiks_at_show_win = self.tiks
-        if (pos := self.player.get_input(self)) is not None:
-            self.set_board(pos)
-        self.print()
-        if self.showing_winner:
+        if not self.game_over:
+            self.player = self.player_x if self.current_turn == Team.X else self.player_o
+            self.winner = self.detect_winner()
+            if self.winner is not None:
+                self.game_over = True
+                self.tiks_at_game_over = self.tiks
+            if (pos := self.player.get_input(self)) is not None:
+                self.set_board(pos)
+            self.print()
+        else:
             self.draw_winner()
             if self.tiks > self.tiks_at_game_over + 40:
-                self.showing_winner = False
+                self.reset()
+                self.game_over = False
+        print(self.tiks, self.tiks_at_game_over)
 
     def set_board(self, pos: Coord):
         """
@@ -122,7 +125,7 @@ class GuiTacToe(TextTacToe):
         """
         get the mouse input
         """
-        if self.player == PygameUserInput and button == 1:
+        if not self.game_over and self.player == PygameUserInput and button == 1:
             grid_pos = Coord(int(pos[0] / self.cell_size.x), int(pos[1] / self.cell_size.y))
             self.set_board(grid_pos)
 
@@ -137,6 +140,7 @@ class GuiTacToe(TextTacToe):
         """
         play a single game of tic tac toe
         """
+        self.running = True
         while self.running:
             self.tik()
             for event in pygame.event.get():
@@ -144,7 +148,8 @@ class GuiTacToe(TextTacToe):
                     sys.exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     self.mouse_input(event.pos, event.button)
-            self.screen.fill(self.BLACK)
+            if not self.game_over:
+                self.screen.fill(self.BLACK)
             self.update()
             pygame.display.update()
 

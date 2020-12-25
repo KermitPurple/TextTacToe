@@ -151,9 +151,9 @@ class TextTacToe:
         """
         while (winner := self.detect_winner()) is None:
             self.print()
-            player = self.player_x if self.current_turn == Team.X else self.player_o
+            self.player = self.player_x if self.current_turn == Team.X else self.player_o
             try:
-                pos = player.get_input(self)
+                pos = self.player.get_input(self)
                 if pos.x >= self.board_size.x or pos.x < 0 or pos.y >= self.board_size.y or pos.y < 0:
                     raise ValueError('Coordinate out of bounds')
                 if self.board[pos.y][pos.x] != Team.Empty:
@@ -209,3 +209,4 @@ class TextTacToe:
         """
         self.board = self.get_matrix(self.board_size.x, self.board_size.y) # create empty tic tac toe board
         self.current_turn = Team.X
+        self.player = self.player_x if self.current_turn == Team.X else self.player_o
