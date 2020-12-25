@@ -28,7 +28,7 @@ class Coord:
         length = len(s)
         if length < 2:
             raise ValueError('Not enough numbers for a coordinate in a 2d plane')
-        elif length > 2:
+        if length > 2:
             raise ValueError('Too many numbers for a coordinate in a 2d plane')
         return Coord(int(s[0]), int(s[1]))
 
@@ -75,13 +75,13 @@ class TextTacToe:
         """
         play a single game of tic tac toe
         """
-        while (winner := self.detect_winner()) == None:
+        while (winner := self.detect_winner()) is None:
             self.print()
             try:
                 pos = self.get_user_input()
                 if pos.x >= self.size.x or pos.x < 0 or pos.y >= self.size.y or pos.y < 0:
                     raise ValueError('Coordinate out of bounds')
-                elif self.board[pos.y][pos.x] != Team.Empty:
+                if self.board[pos.y][pos.x] != Team.Empty:
                     raise ValueError('Cannot place peice in spot that isnt empty')
             except ValueError as e:
                 print(e)
