@@ -2,6 +2,8 @@
 
 from __future__ import annotations # allows for use of Coord in function type declarations
 from enum import Enum
+import random
+
 
 class Team(Enum):
     """
@@ -73,6 +75,24 @@ class UserInput(InputType):
         get user input and covert it to a Coord
         """
         return Coord.from_string(input('Enter a valid Coordinate on the board: '))
+
+class RandomBotInput(InputType):
+    """
+    Child class of Input type.
+    returns a random avaliable coord on the board
+    """
+
+    @staticmethod
+    def get_input(tic_tac_toe: TextTacToe) -> Coord:
+        """
+        get user input and covert it to a Coord
+        """
+        avaliable_coords = []
+        for i in range(tic_tac_toe.size.y):
+            for j in range(tic_tac_toe.size.x):
+                if tic_tac_toe.board[i][j] == Team.Empty:
+                    avaliable_coords.append(Coord(j, i))
+        return random.choice(avaliable_coords)
 
 class MinimaxBotInput(InputType):
     """
