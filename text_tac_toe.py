@@ -1,4 +1,4 @@
-"""Contains three classes used for a text-based TicTacToe game"""
+"""Contains five classes used for a text-based TicTacToe game"""
 
 from __future__ import annotations # allows for use of Coord in function type declarations
 from enum import Enum
@@ -47,6 +47,33 @@ class Coord:
         """
         return f'Coord(x={self.x}, y={self.y})'
 
+class InputType:
+    """
+    A class to be inherited and used to define the types of input that can be used for tic tac toe
+    some examples of input types would be user or bot
+    used in TextTacToe for get_input method
+    """
+
+    @staticmethod
+    def get_input(tic_tac_toe: TextTacToe) -> Coord:
+        """
+        The method that should be overwritten and is used in TextTacToe
+        """
+        return Coord(0, 0)
+
+class UserInput(InputType):
+    """
+    Child class of Input type.
+    Asks the user to enter input and returns it as a coord
+    """
+
+    @staticmethod
+    def get_input(tic_tac_toe: TextTacToe) -> Coord:
+        """
+        get user input and covert it to a Coord
+        """
+        return Coord.from_string(input('Enter a valid Coordinate on the board: '))
+
 class TextTacToe:
     """
     Text-based Tic tac toe game
@@ -75,14 +102,15 @@ class TextTacToe:
                 print('\n--+--+--') # print horizontal lines between values
         print('') # newline
 
-    def play_game(self):
+    def play_game(self, player_X: InputType = UserInput, player_O: InputType = UserInput):
         """
         play a single game of tic tac toe
         """
         while (winner := self.detect_winner()) is None:
             self.print()
+            player = player_X if self.current_turn == Team.X else player_O
             try:
-                pos = self.get_user_input()
+                pos = player.get_input(self)
                 if pos.x >= self.size.x or pos.x < 0 or pos.y >= self.size.y or pos.y < 0:
                     raise ValueError('Coordinate out of bounds')
                 if self.board[pos.y][pos.x] != Team.Empty:
@@ -115,13 +143,6 @@ class TextTacToe:
             if True in horiz_win or diag_win:
                 return team
         return None
-
-    @staticmethod
-    def get_user_input() -> Coord:
-        """
-        get user input and covert it to a Coord
-        """
-        return Coord.from_string(input('Enter a valid Coordinate on the board: '))
 
     @staticmethod
     def get_matrix(x: int, y: int) -> [[Team]]:
