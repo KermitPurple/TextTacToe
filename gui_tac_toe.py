@@ -24,7 +24,7 @@ class GuiTacToe(TextTacToe):
     WHITE = pygame.Color(255, 255, 255)
     BLACK = pygame.Color(0, 0, 0)
 
-    def __init__(self, player_x: InputType = PygameUserInput, player_o: InputType = PygameUserInput, screen_size: Coord = Coord(600, 600)):
+    def __init__(self, player_x: InputType = PygameUserInput, player_o: InputType = PygameUserInput, board_size: Coord = Coord(3, 3), screen_size: Coord = Coord(600, 600)):
         super().__init__()
         self.player = player_x
         self.player_x = player_x

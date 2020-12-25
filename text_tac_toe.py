@@ -119,11 +119,11 @@ class TextTacToe:
     """
     Text-based Tic tac toe game
     """
-    def __init__(self, player_x: InputType = UserInput, player_o: InputType = UserInput):
+    def __init__(self, player_x: InputType = UserInput, player_o: InputType = UserInput, board_size: Coord = Coord(3, 3)):
         self.player = player_x
         self.player_x = player_x
         self.player_o = player_o
-        self.board_size = Coord(10, 10) # set the size of a tic tac toe board
+        self.board_size = board_size # set the size of a tic tac toe board
         self.board = self.get_matrix(self.board_size.x, self.board_size.y) # create empty tic tac toe board
         self.current_turn = Team.X
         self.teams = [team for team in Team if team != Team.Empty]
