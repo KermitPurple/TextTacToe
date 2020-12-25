@@ -87,8 +87,8 @@ class TextTacToe:
                     raise ValueError('Coordinate out of bounds')
                 if self.board[pos.y][pos.x] != Team.Empty:
                     raise ValueError('Cannot place peice in spot that isnt empty')
-            except ValueError as e:
-                print(e)
+            except ValueError as error:
+                print(error)
                 continue
             self.board[pos.y][pos.x] = self.current_turn
             self.swap_current_turn()
