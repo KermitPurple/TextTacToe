@@ -68,7 +68,6 @@ class GuiTacToe(TextTacToe):
             self.draw_winner()
             if self.tiks > self.tiks_at_game_over + 40:
                 self.reset()
-        print(self.tiks, self.tiks_at_game_over)
 
     def set_board(self, pos: Coord):
         """
