@@ -39,7 +39,7 @@ class GuiTacToe(TextTacToe):
         pygame.font.init()
         pygame.display.init()
         pygame.display.set_caption('Tic Tac Toe')
-        self.FONT = pygame.font.SysFont('Arial', 100)
+        self.FONT = pygame.font.SysFont('Arial', min(self.screen_size.x, self.screen_size.y) // 6)
         self.screen = pygame.display.set_mode(size=self.screen_size.get_tuple())
         self.tiks = 0
         self.game_over = False
@@ -113,7 +113,7 @@ class GuiTacToe(TextTacToe):
         Fill a cell with an x or an o
         """
         if team  == Team.X:
-            pos = Coord(pos.x * self.cell_size.x + self.cell_size.x * 0.1, pos.y * self.cell_size.y + self.cell_size.x * 0.1)
+            pos = Coord(pos.x * self.cell_size.x + self.cell_size.x * 0.1, pos.y * self.cell_size.y + self.cell_size.y * 0.1)
             scaled_cell_size = Coord(self.cell_size.x * 0.8, self.cell_size.y * 0.8)
             pygame.draw.line(self.screen, self.RED, pos.get_tuple(), Coord(pos.x + scaled_cell_size.x, pos.y + scaled_cell_size.y).get_tuple(), 10)
             pygame.draw.line(self.screen, self.RED, Coord(pos.x, pos.y + scaled_cell_size.y).get_tuple(), Coord(pos.x + scaled_cell_size.x, pos.y).get_tuple(), 10)
