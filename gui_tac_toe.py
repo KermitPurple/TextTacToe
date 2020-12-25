@@ -63,6 +63,13 @@ class GuiTacToe(TextTacToe):
             middle = Coord(pos.x * self.cell_size.x + self.cell_size.x / 2, pos.y * self.cell_size.y + self.cell_size.y / 2)
             pygame.draw.circle(self.screen, self.WHITE, middle.get_tuple(), min(self.cell_size.x, self.cell_size.y) * 0.4, 10)
 
+    def mouse_input(self, pos, button):
+        """
+        get the mouse input
+        """
+        if button == 1:
+            grid_pos = Coord(int(pos[0] / self.cell_size.x), int(pos[1] / self.cell_size.y))
+            print(grid_pos)
 
     def play_game(self, player_x: InputType = UserInput, player_o: InputType = UserInput):
         """
@@ -73,6 +80,8 @@ class GuiTacToe(TextTacToe):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    self.mouse_input(event.pos, event.button)
             self.screen.fill((0, 0, 0))
             self.update()
             pygame.display.update()
