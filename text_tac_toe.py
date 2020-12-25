@@ -119,7 +119,10 @@ class TextTacToe:
     """
     Text-based Tic tac toe game
     """
-    def __init__(self):
+    def __init__(self, player_x: InputType = UserInput, player_o: InputType = UserInput):
+        self.player = player_x
+        self.player_x = player_x
+        self.player_o = player_o
         self.size = Coord(3, 3) # set the size of a tic tac toe board
         self.board = self.get_matrix(self.size.x, self.size.y) # create empty tic tac toe board
         self.current_turn = Team.X
@@ -143,13 +146,13 @@ class TextTacToe:
                 print('\n--+--+--') # print horizontal lines between values
         print('') # newline
 
-    def play_game(self, player_x: InputType = UserInput, player_o: InputType = UserInput):
+    def play_game(self):
         """
         play a single game of tic tac toe
         """
         while (winner := self.detect_winner()) is None:
             self.print()
-            player = player_x if self.current_turn == Team.X else player_o
+            player = self.player_x if self.current_turn == Team.X else self.player_o
             try:
                 pos = player.get_input(self)
                 if pos.x >= self.size.x or pos.x < 0 or pos.y >= self.size.y or pos.y < 0:
