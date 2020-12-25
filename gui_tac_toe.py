@@ -68,7 +68,6 @@ class GuiTacToe(TextTacToe):
             self.draw_winner()
             if self.tiks > self.tiks_at_game_over + 40:
                 self.reset()
-                self.game_over = False
         print(self.tiks, self.tiks_at_game_over)
 
     def set_board(self, pos: Coord):
@@ -125,15 +124,19 @@ class GuiTacToe(TextTacToe):
         """
         get the mouse input
         """
-        if not self.game_over and self.player == PygameUserInput and button == 1:
-            grid_pos = Coord(int(pos[0] / self.cell_size.x), int(pos[1] / self.cell_size.y))
-            self.set_board(grid_pos)
+        if button == 1:
+            if self.game_over:
+                self.reset()
+            elif self.player == PygameUserInput:
+                grid_pos = Coord(int(pos[0] / self.cell_size.x), int(pos[1] / self.cell_size.y))
+                self.set_board(grid_pos)
 
     def reset(self):
         """
         Reset the board, current turn, and tiks
         """
         super().reset()
+        self.game_over = False
         tiks = 0
 
     def play_game(self):
