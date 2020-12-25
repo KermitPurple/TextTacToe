@@ -4,6 +4,11 @@ from __future__ import annotations # allows for use of Coord in function type de
 from enum import Enum
 import random
 
+def copy_2d(arr: [[any]]) -> [[any]]:
+    """
+    Copys a 2d array by value
+    """
+    return [[j for j in i] for i in arr]
 
 class Team(Enum):
     """
@@ -120,7 +125,7 @@ class MinimaxBotInput(RandomBotInput):
         """
         best_score = -float('inf')
         for coord in MinimaxBotInput.get_avaliable_coords(tic_tac_toe, tic_tac_toe.board):
-            score = MinimaxBotInput.minimax_algorithm(tic_tac_toe, tic_tac_toe.board, coord, tic_tac_toe.current_turn, 10, True)
+            score = MinimaxBotInput.minimax_algorithm(tic_tac_toe, copy_2d(tic_tac_toe.board), coord, tic_tac_toe.current_turn, 100, False)
             if score > best_score:
                 best_score = score
                 best_coord = coord
@@ -133,7 +138,7 @@ class MinimaxBotInput(RandomBotInput):
         """
         board[new_coord.y][new_coord.x] = turn
         avaliable_coords = MinimaxBotInput.get_avaliable_coords(tic_tac_toe, board)
-        if depth == 0:
+        if depth < 1:
             return 0
         elif (winner := tic_tac_toe._detect_winner(board)) is not None:
             if winner == Team.Empty:
@@ -143,11 +148,19 @@ class MinimaxBotInput(RandomBotInput):
             else:
                 return -1
         if maximizing:
+            best_score = -float('inf')
             for coord in avaliable_coords:
-                pass
+                score = MinimaxBotInput.minimax_algorithm(tic_tac_toe, copy_2d(board), coord, tic_tac_toe._swap_current_turn(turn), depth - 1, False)
+                if score > best_score:
+                    best_score = score
+            return best_score
         else:
+            worst_score = float('inf')
             for coord in avaliable_coords:
-                pass
+                score = MinimaxBotInput.minimax_algorithm(tic_tac_toe, copy_2d(board), coord, tic_tac_toe._swap_current_turn(turn), depth - 1, True)
+                if score < worst_score:
+                    worst_score = score
+            return worst_score
 
 class TextTacToe:
     """
