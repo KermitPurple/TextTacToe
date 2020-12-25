@@ -116,8 +116,11 @@ class GuiTacToe(TextTacToe):
             pygame.draw.circle(self.screen, self.WHITE, middle.get_tuple(), min(self.cell_size.x, self.cell_size.y) * 0.4, 10)
 
     def draw_winner(self):
+        """
+        Draw the text on the screen of the winner
+        """
         center = Coord(self.screen_size.x / 2, self.screen_size.y / 2)
-        txt = self.FONT.render('Test', True, self.RED)
+        txt = self.FONT.render(f'{self.winner.value} Won!' if self.winner != Team.Empty else 'Cats Game!', True, self.RED)
         self.screen.blit(txt, center.get_tuple())
 
     def mouse_input(self, pos, button):
