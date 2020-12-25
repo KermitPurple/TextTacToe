@@ -174,6 +174,13 @@ class TextTacToe:
         detects if someone has won the game of tic tac toe.
         returns the team of the winner or None if there is no winner yet
         """
+        return self._detect_winner(self.board)
+
+    def _detect_winner(self, board: [[int]]) -> Team:
+        """
+        detects if someone has won the game of tic tac toe.
+        returns the team of the winner or None if there is no winner yet
+        """
         check_diag = self.board_size.x == self.board_size.y
         for team in self.teams:
             horiz_win = [True for _ in range(self.board_size.x)]
@@ -182,16 +189,16 @@ class TextTacToe:
             board_full = True
             for i in range(self.board_size.y): # cycle through y values
                 if check_diag:
-                    if self.board[i][i] != team:
+                    if board[i][i] != team:
                         slope_down_diag_win = False
-                    if self.board[self.board_size.y - 1 - i][i] != team:
+                    if board[self.board_size.y - 1 - i][i] != team:
                         slope_up_diag_win = False
                 for j in range(self.board_size.x):
-                    if self.board[i][j] != team:
+                    if board[i][j] != team:
                         horiz_win[j] = False
-                    if self.board[i][j] == Team.Empty:
+                    if board[i][j] == Team.Empty:
                         board_full = False
-                if self.board[i] == [team for _ in range(self.board_size.x)]:
+                if board[i] == [team for _ in range(self.board_size.x)]:
                     return team
             if True in horiz_win or slope_up_diag_win or slope_down_diag_win:
                 return team
