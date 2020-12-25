@@ -3,6 +3,19 @@
 from text_tac_toe import TextTacToe, Coord, UserInput, InputType, Team
 import pygame, os
 
+class PygameUserInput(InputType):
+    """
+    Child class of Input type.
+    Read user input from pygame mouse
+    """
+
+    @staticmethod
+    def get_input(tic_tac_toe: TextTacToe) -> Coord:
+        """
+        Returns none because the user input is found in the pygame loops
+        """
+        return None
+
 class GuiTacToe(TextTacToe):
     """
     This class uses pygame to create visual tic_tac_toe
@@ -30,7 +43,23 @@ class GuiTacToe(TextTacToe):
         self.winner = self.detect_winner()
         if self.winner is not None:
             self.running = False
+        if (pos := self.player.get_input(self)) is not None:
+            self.set_board(pos)
         self.print()
+
+    def set_board(self, pos: Coord):
+        """
+        set a position on the board to the current turn
+        """
+        try:
+            if pos.x >= self.size.x or pos.x < 0 or pos.y >= self.size.y or pos.y < 0:
+                raise ValueError('Coordinate out of bounds')
+            if self.board[pos.y][pos.x] != Team.Empty:
+                raise ValueError('Cannot place peice in spot that isnt empty')
+            self.board[pos.y][pos.x] = self.current_turn
+            self.swap_current_turn()
+        except ValueError as error:
+            print(error)
 
     def print(self):
         """
@@ -69,12 +98,13 @@ class GuiTacToe(TextTacToe):
         """
         if button == 1:
             grid_pos = Coord(int(pos[0] / self.cell_size.x), int(pos[1] / self.cell_size.y))
-            print(grid_pos)
+            self.set_board(grid_pos)
 
-    def play_game(self, player_x: InputType = UserInput, player_o: InputType = UserInput):
+    def play_game(self, player_x: InputType = PygameUserInput, player_o: InputType = PygameUserInput):
         """
         play a single game of tic tac toe
         """
+        self.player = player_x if self.current_turn == Team.X else player_o
         self.running = True
         while self.running:
             for event in pygame.event.get():
