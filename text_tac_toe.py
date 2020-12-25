@@ -24,7 +24,8 @@ class Coord:
         """
         Create a new Coord object from a string
         """
-        s = (''.join(map(lambda ch: ch if ch.isnumeric() else ' ', string))).split(' ') # split input string into list of empy strings and numbers
+        # split input string into list of empy strings and numbers
+        s = (''.join(map(lambda ch: ch if ch.isnumeric() else ' ', string))).split(' ')
         while '' in s: # While there are empty strings
             s.remove('') # remove an empty string
         length = len(s)
@@ -68,7 +69,8 @@ class TextTacToe:
         """
         for i in range(self.size.y): # cycle through y coords
             for j in range(self.size.x): # cycle through x coords
-                print(self.board[i][j].value + (' |' if j < self.size.x - 1 else ''), end='') # print values and vertical lines in between
+                # print values and vertical lines in between
+                print(self.board[i][j].value + (' |' if j < self.size.x - 1 else ''), end='')
             if i < self.size.y - 1: # if this isn't the last loop
                 print('\n--+--+--') # print horizontal lines between values
         print('') # newline
@@ -94,7 +96,8 @@ class TextTacToe:
 
     def detect_winner(self) -> Team:
         """
-        detects if someone has won the game of tic tac toe. returns the team of the winner or None if there is no winner
+        detects if someone has won the game of tic tac toe.
+        returns the team of the winner or None if there is no winner yet
         """
         check_diag = self.size.x == self.size.y
         for team in self.teams:
