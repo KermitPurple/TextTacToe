@@ -165,7 +165,10 @@ class TextTacToe:
             self.board[pos.y][pos.x] = self.current_turn
             self.swap_current_turn()
         self.print()
-        print(f'{winner.value} wins!')
+        if winner != Team.Empty:
+            print(f'{winner.value} wins!')
+        else:
+            print('Cat\'s Game!')
 
     def detect_winner(self) -> Team:
         """
@@ -176,6 +179,7 @@ class TextTacToe:
         for team in self.teams:
             horiz_win = [True for _ in range(self.size.x)]
             diag_win = True
+            board_full = True
             for i in range(self.size.y): # cycle through y values
                 if check_diag:
                     if self.board[i][i] != team:
@@ -183,10 +187,14 @@ class TextTacToe:
                 for j in range(self.size.x):
                     if self.board[i][j] != team:
                         horiz_win[j] = False
+                    if self.board[i][j] == Team.Empty:
+                        board_full = False
                 if self.board[i] == [team for _ in range(self.size.x)]:
                     return team
             if True in horiz_win or diag_win:
                 return team
+        if board_full:
+            return Team.Empty
         return None
 
     @staticmethod
