@@ -124,9 +124,8 @@ class TextTacToe:
         self.player_x = player_x
         self.player_o = player_o
         self.board_size = board_size # set the size of a tic tac toe board
-        self.board = self.get_matrix(self.board_size.x, self.board_size.y) # create empty tic tac toe board
-        self.current_turn = Team.X
         self.teams = [team for team in Team if team != Team.Empty]
+        self.reset()
 
     def swap_current_turn(self):
         """
@@ -203,3 +202,10 @@ class TextTacToe:
         Create new matric with width x and height y
         """
         return [[Team.Empty for j in range(x)] for i in range(y)]
+
+    def reset(self):
+        """
+        Reset the board and the current turn
+        """
+        self.board = self.get_matrix(self.board_size.x, self.board_size.y) # create empty tic tac toe board
+        self.current_turn = Team.X
