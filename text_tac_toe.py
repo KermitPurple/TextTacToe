@@ -25,15 +25,15 @@ class Coord:
         Create a new Coord object from a string
         """
         # split input string into list of empy strings and numbers
-        s = (''.join(map(lambda ch: ch if ch.isnumeric() else ' ', string))).split(' ')
-        while '' in s: # While there are empty strings
-            s.remove('') # remove an empty string
-        length = len(s)
+        num_list = (''.join(map(lambda ch: ch if ch.isnumeric() else ' ', string))).split(' ')
+        while '' in num_list: # While there are empty strings
+            num_list.remove('') # remove an empty string
+        length = len(num_list)
         if length < 2:
             raise ValueError('Not enough numbers for a coordinate in a 2d plane')
         if length > 2:
             raise ValueError('Too many numbers for a coordinate in a 2d plane')
-        return Coord(int(s[0]), int(s[1]))
+        return Coord(int(num_list[0]), int(num_list[1]))
 
     def __eq__(self, other: Coord) -> bool:
         """
