@@ -70,6 +70,21 @@ class TextTacToe:
                 print('\n--+--+--') # print horizontal lines between values
         print('') # newline
 
+    def play_game(self):
+        while 1:
+            self.print()
+            try:
+                pos = self.get_user_input()
+                if pos.x >= self.size.x or pos.x < 0 or pos.y >= self.size.y or pos.y < 0:
+                    raise ValueError('Coordinate out of bounds')
+                elif self.board[pos.y][pos.x] != Team.Empty:
+                    raise ValueError('Cannot place peice in spot that isnt empty')
+            except ValueError as e:
+                print(e)
+                continue
+            self.board[pos.y][pos.x] = self.current_turn
+            self.swap_current_turn()
+
     @staticmethod
     def get_user_input() -> Coord:
         """
@@ -86,8 +101,4 @@ class TextTacToe:
 
 if __name__ == '__main__':
     ttt = TextTacToe()
-    ttt.print()
-    print(ttt.get_user_input())
-    for _ in range(10):
-        print(ttt.current_turn)
-        ttt.swap_current_turn()
+    ttt.play_game()
