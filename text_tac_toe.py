@@ -89,16 +89,23 @@ class RandomBotInput(InputType):
     """
 
     @staticmethod
-    def get_input(tic_tac_toe: TextTacToe) -> Coord:
+    def get_avaliable_coords(tic_tac_toe: TextTacToe) -> [Coord]:
         """
-        get user input and covert it to a Coord
+        Return a list of avaliable coordinates
         """
         avaliable_coords = []
         for i in range(tic_tac_toe.board_size.y):
             for j in range(tic_tac_toe.board_size.x):
                 if tic_tac_toe.board[i][j] == Team.Empty:
                     avaliable_coords.append(Coord(j, i))
-        return random.choice(avaliable_coords)
+        return avaliable_coords
+
+    @staticmethod
+    def get_input(tic_tac_toe: TextTacToe) -> Coord:
+        """
+        get user input and covert it to a Coord
+        """
+        return random.choice(RandomBotInput.get_avaliable_coords(tic_tac_toe))
 
 class MinimaxBotInput(InputType):
     """
@@ -176,7 +183,7 @@ class TextTacToe:
         """
         return self._detect_winner(self.board)
 
-    def _detect_winner(self, board: [[int]]) -> Team:
+    def _detect_winner(self, board: [[Team]]) -> Team:
         """
         detects if someone has won the game of tic tac toe.
         returns the team of the winner or None if there is no winner yet
