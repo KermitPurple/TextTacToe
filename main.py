@@ -71,6 +71,9 @@ class TextTacToe:
         print('') # newline
 
     def play_game(self):
+        """
+        play a single game of tic tac toe
+        """
         while 1:
             self.print()
             try:
