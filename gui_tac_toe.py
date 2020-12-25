@@ -61,7 +61,7 @@ class GuiTacToe(TextTacToe):
             if self.winner is not None:
                 self.game_over = True
                 self.tiks_at_game_over = self.tiks
-            if (pos := self.player.get_input(self)) is not None:
+            elif (pos := self.player.get_input(self)) is not None:
                 self.set_board(pos)
             self.print()
         else:
@@ -119,7 +119,7 @@ class GuiTacToe(TextTacToe):
         """
         Draw the text on the screen of the winner
         """
-        center = Coord(self.screen_size.x / 2, self.screen_size.y / 2)
+        center = Coord(self.screen_size.x / 2, self.screen_size.y / 5)
         txt = self.FONT.render(f'{self.winner.value} Won!' if self.winner != Team.Empty else 'Cats Game!', True, self.RED)
         self.screen.blit(txt, center.get_tuple())
 
