@@ -150,16 +150,12 @@ class MinimaxBotInput(RandomBotInput):
         if maximizing:
             best_score = -float('inf')
             for coord in avaliable_coords:
-                score = MinimaxBotInput.minimax_algorithm(tic_tac_toe, copy_2d(board), coord, tic_tac_toe._swap_current_turn(turn), depth - 1, False)
-                if score > best_score:
-                    best_score = score
+                best_score = max(MinimaxBotInput.minimax_algorithm(tic_tac_toe, copy_2d(board), coord, tic_tac_toe._swap_current_turn(turn), depth - 1, False), best_score)
             return best_score
         else:
             worst_score = float('inf')
             for coord in avaliable_coords:
-                score = MinimaxBotInput.minimax_algorithm(tic_tac_toe, copy_2d(board), coord, tic_tac_toe._swap_current_turn(turn), depth - 1, True)
-                if score < worst_score:
-                    worst_score = score
+                worst_score = min(MinimaxBotInput.minimax_algorithm(tic_tac_toe, copy_2d(board), coord, tic_tac_toe._swap_current_turn(turn), depth - 1, True), worst_score)
             return worst_score
 
 class TextTacToe:
